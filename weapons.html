@@ -7,29 +7,38 @@
 	<title>Weapons</title>
 	
 	<script type="text/javascript">
-	
+	var PROXY_URL = "proxy.php?filename=";
 	
     $(function() {
         var params = {
             // Request parameters
-			
+			name: "title",
+			value: "h5",
+			required: true,
+			options: ["h5"],
+			custom: false,
+			typeName: "string",
+			description: "",
         };
       
         $.ajax({
-            url: "https://www.haloapi.com/metadata/h5/metadata/weapons" + $.param(params),
+            url: PROXY_URL + "https://www.haloapi.com/metadata/metadata/weapons?" + $.param(params),
             beforeSend: function(xhrObj){
                 // Request headers
-                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","46886864fcff456b905e60c645b96f12");
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","f1b7874dbb164a3f906d1be279994ef3");
             },
             type: "GET",
             // Request body
-            data: "",
+            data: "{body}",
         })
-        .done(function(data) {
-            alert("success");
+        .done(function(e) 
+		{
+            console.dir(e);
         })
-        .fail(function() {
-            alert("error");
+        .fail(function(e) 
+		{
+			console.dir("failed "+e);
+            //alert("error");
         });
     });
 </script>
