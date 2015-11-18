@@ -1,0 +1,39 @@
+#selectors
+{
+	position: absolute;
+	left: 15%;
+	top: 50px;
+}
+
+#selectors  ul li
+{
+	list-style-type: none;
+	position: relative;
+	display: inline;
+	padding-left: 10em;
+}
+
+body
+{
+	width: 60%;
+	margin-left: 20%;
+	padding-left: 1em;
+	padding-right: 1em;
+	background-color: #FFFBD0;
+}
+
+h1
+{
+	text-align: center;
+}
+
+.contentFiller
+{
+	width: 70%;
+	float: right;
+}
+
+.contentImage
+{
+	float: left;
+}
