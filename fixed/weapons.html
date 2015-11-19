@@ -3,47 +3,44 @@
 <head>
 	<meta charset="utf-8" />
 	<link rel="stylesheet" type="text/css" href="HaloHighlightsStyles.css" media="screen"/>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 	<title>Weapons</title>
 	
 	<script type="text/javascript">
 	var PROXY_URL = "proxy.php?filename=";
-	var API_KEY = "470d55269e6389f7c2f4be6604d8a0c54ed12fc0";
 	
-    $(function() 
-	{
-      //console.log("http://www.giantbomb.com/api/game/3030-4725/?api_key="+API_KEY+"&format=json");
+    $(function() {
+        var params = {
+            // Request parameters
+			name: "title",
+			value: "h5",
+			required: true,
+			options: ["h5"],
+			custom: false,
+			typeName: "string",
+			description: "",
+        };
+      
         $.ajax({
-            url: PROXY_URL + "http://www.giantbomb.com/api/search/?api_key="+API_KEY+"&format=json&query='fallout'",
+            url: PROXY_URL + "https://www.haloapi.com/metadata/metadata/weapons?" + $.param(params),
+            beforeSend: function(xhrObj){
+                // Request headers
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","f1b7874dbb164a3f906d1be279994ef3");
+            },
             type: "GET",
             // Request body
-            data: null,
+            data: "{body}",
         })
         .done(function(e) 
 		{
-			console.log("works");
-            console.dir(e);
-			jsonLoaded(e);
+            //console.dir(e);
         })
         .fail(function(e) 
 		{
-			console.log("broke");
-			console.dir(e);
-			jsonLoaded(e);
+			//console.dir("failed "+e);
             //alert("error");
         });
     });
-	
-	var jsonLoaded = function(e)
-	{
-		console.log(e.responseText);
-		if(e.responseText.status_code != 200)
-		{
-			console.log("The API threw an error!");
-			return;
-		}
-		console.log("The API actually worked");
-	}
 </script>
 	
 </head>
