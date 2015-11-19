@@ -10,34 +10,70 @@
 	var PROXY_URL = "proxy.php?filename=";
 	var API_KEY = "470d55269e6389f7c2f4be6604d8a0c54ed12fc0";
 	
-    $(function() 
+	var getTwitch = function()
 	{
-      //console.log("http://www.giantbomb.com/api/game/3030-4725/?api_key="+API_KEY+"&format=json");
-        $.ajax({
-            url: PROXY_URL + "http://www.giantbomb.com/api/search/?api_key="+API_KEY+"&format=json&query='fallout'",
-            type: "GET",
-            // Request body
-            data: null,
-        })
-        .done(function(e) 
+		console.log("getting Twitchy");
+		var game = $('#gameQuery').val();
+		$(function()
 		{
-			console.log("works");
-            console.dir(e);
-			jsonLoaded(e);
-        })
-        .fail(function(e) 
+			$.ajax({
+				url: "https://api.twitch.tv/kraken/search/streams?q="+game,
+				type: "GET",
+				// Request body
+				data: null,
+				dataType: "json",
+			})
+			.done(function(e) 
+			{
+				console.log("works");
+				console.dir(e);
+				jsonLoaded(e);
+			})
+			.fail(function(e) 
+			{
+				console.log("broke");
+				console.dir(e);
+				jsonLoaded(e);
+				//alert("error");
+			});
+		});
+	}
+	
+	var getData = function()
+	{
+		getTwitch();
+		var game = $('#gameQuery').val();
+		$(function() 
 		{
-			console.log("broke");
-			console.dir(e);
-			jsonLoaded(e);
-            //alert("error");
-        });
-    });
+		  //console.log("http://www.giantbomb.com/api/game/3030-4725/?api_key="+API_KEY+"&format=json");
+			$.ajax({
+				url: "http://www.giantbomb.com/api/search/?api_key="+API_KEY+'&format=jsonp&query="'+game+'"&resources=game&json_callback=jsonLoaded',
+				type: "GET",
+				// Request body
+				data: null,
+				dataType: "jsonp",
+			})
+			.done(function(e) 
+			{
+				console.log("works");
+				console.dir(e);
+				//jsonLoaded(e);
+			})
+			.fail(function(e) 
+			{
+				console.log("broke");
+				console.dir(e);
+				//jsonLoaded(e);
+				//alert("error");
+			});
+		});
+	}
 	
 	var jsonLoaded = function(e)
 	{
-		console.log(e.responseText);
-		if(e.responseText.status_code != 200)
+		console.log("JSON is loaded");
+		console.dir(e);
+		if(e.error != "OK")
 		{
 			console.log("The API threw an error!");
 			return;
@@ -56,19 +92,11 @@
 			<p>The DMR is super cool</p>
 		</div>
 	</div>
-    
-        <div id="login-container" class="pre-auth">
-      This application requires access to your YouTube account.
-      Please <a href="#" id="login-link">authorize</a> to continue.
-    </div>
 	
 	<div id="buttons">
-      <label> <input id="query" value='cats' type="text"/><button id="search-button" disabled onclick="search()">Search</button></label>
+      <label> <input id="gameQuery" value='fallout' type="text"/><button id="search-button" onclick="getData()">Search</button></label>
     </div>
     <div id="search-container">
     </div>
-    <script src="auth.js"></script>
-    <script src="search.js"></script>
-    <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
 </body>
 </html>
