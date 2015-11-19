@@ -41,8 +41,9 @@
 	
 	var getData = function()
 	{
-		getTwitch();
 		var game = $('#gameQuery').val();
+		document.querySelector("#search-container").innerHTML = "<b>Searching for " + game + "</b>";
+		getTwitch();
 		$(function() 
 		{
 		  //console.log("http://www.giantbomb.com/api/game/3030-4725/?api_key="+API_KEY+"&format=json");
@@ -79,6 +80,40 @@
 			return;
 		}
 		console.log("The API actually worked");
+		var games = e.results;
+		console.log(games);
+		var html = "";
+		for(var i = 0;i<games.length;i++)
+		{
+			html += "<div class='content'>";
+			if(games[i].image)
+			{
+				html += "<img src='"+games[i].image.medium_url+"'></img>";
+			}
+			
+			if(games[i].name)
+			{
+				html += "<h2>"+games[i].name+"</h2>";
+			}
+			else
+			{
+				html += "<h2>The title could not be found</h2>";
+			}
+			
+			if(games[i].description)
+			{
+				html += "<p>"+games[i].description+"</p>";
+			}
+			else
+			{
+				html += "<p>There is no description for this game</p>";
+			}
+			
+			html += "</div>";
+		}
+		document.querySelector('#search-container').innerHTML = html;
+		
+		$("#search-container").fadeIn(500);
 	}
 </script>
 	
