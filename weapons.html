@@ -10,10 +10,8 @@
 	var PROXY_URL = "proxy.php?filename=";
 	var API_KEY = "470d55269e6389f7c2f4be6604d8a0c54ed12fc0";
 	
-	var getTwitch = function()
+	var getTwitch = function(game)
 	{
-		console.log("getting Twitchy");
-		var game = $('#gameQuery').val();
 		$(function()
 		{
 			$.ajax({
@@ -33,7 +31,7 @@
 			{
 				console.log("broke");
 				console.dir(e);
-				jsonLoaded(e);
+				//jsonLoaded(e);
 				//alert("error");
 			});
 		});
@@ -43,12 +41,17 @@
 	{
 		var game = $('#gameQuery').val();
 		document.querySelector("#search-container").innerHTML = "<b>Searching for " + game + "</b>";
-		getTwitch();
+		getGame(game);
+		getTwitch(game);
+		
+	}
+	
+	var getGame = function(game)
+	{
 		$(function() 
 		{
-		  //console.log("http://www.giantbomb.com/api/game/3030-4725/?api_key="+API_KEY+"&format=json");
 			$.ajax({
-				url: "http://www.giantbomb.com/api/search/?api_key="+API_KEY+'&format=jsonp&query="'+game+'"&resources=game&json_callback=jsonLoaded',
+				url: "http://www.giantbomb.com/api/search/?api_key="+API_KEY+'&format=jsonp&query="'+game+'"&resources=game&json_callback=jsonPLoaded',
 				type: "GET",
 				// Request body
 				data: null,
@@ -73,6 +76,39 @@
 	var jsonLoaded = function(e)
 	{
 		console.log("JSON is loaded");
+		console.dir(e);
+		var streams = e.streams;
+		console.log(streams);
+		var html = "";
+		for(var i = 0;i<streams.length;i++)
+		{
+			html += "<a href=";
+			if(streams[i].channel && streams[i].channel.url)
+			{
+				html += streams[i].channel.url+">";
+				if(streams[i].channel.name)
+				{
+					html += "Link to "+streams[i].channel.name+"'s stream</a>";
+				}
+				else
+				{
+					html += "Link to a Twitch stream</a>";
+				}
+				break;
+			}
+			else
+			{
+				html += "></a>";
+			}
+		}
+		document.querySelector('#link-container').innerHTML = html;
+		
+		$("#link-container").fadeIn(500);
+	}
+	
+	var jsonPLoaded = function(e)
+	{
+		console.log("JSON P is loaded");
 		console.dir(e);
 		if(e.error != "OK")
 		{
@@ -102,7 +138,33 @@
 			
 			if(games[i].description)
 			{
-				html += "<p>"+games[i].description+"</p>";
+				var description = "There is no description for this game";
+				for(var j = 0;j+4<games[i].description.length;j++)
+				{
+				
+					if(games[i].description.substring(j,j+3) == "<h2")
+					{
+						var endNum = j+3;
+						while(endNum+1 < games[i].description.length && games[i].description.substring(endNum,endNum+1) != ">")
+						{
+							endNum++;
+						}
+						
+						if(endNum+9 < games[i].description.length && games[i].description.substring(endNum+1, endNum+9) == "Overview")
+						{
+							for(var k=endNum+9;k+4<games[i].description.length;k++)
+							{
+								if(games[i].description.substring(k,k+4) == "</p>")
+								{
+									description = games[i].description.substring(j,k+4);
+									break;
+								}
+							}
+							break;
+						}
+					}
+				}
+				html += "<p>"+description+"</p>";
 			}
 			else
 			{
@@ -130,6 +192,8 @@
 	
 	<div id="buttons">
       <label> <input id="gameQuery" value='fallout' type="text"/><button id="search-button" onclick="getData()">Search</button></label>
+    </div>
+	<div id="link-container">
     </div>
     <div id="search-container">
     </div>
