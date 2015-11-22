@@ -159,7 +159,7 @@
 			
 			if(games[i].image)
 			{
-				html += "<img src='"+games[i].image.medium_url+"'></img>";
+				html += "<img class = 'loadedImage' src='"+games[i].image.small_url+"'></img>";
 			}
 			
 			if(games[i].description)
@@ -190,11 +190,11 @@
 						}
 					}
 				}
-				html += "<p>"+description+"</p>";
+				html += "<p class = 'description'>"+description+"</p>";
 			}
 			else
 			{
-				html += "<p>There is no description for this game</p>";
+				html += "<p class = 'description'>There is no description for this game</p>";
 			}
 			
 			html += "</div>";
@@ -232,12 +232,14 @@
 	<div id="buttons">
       <label> <input id="gameQuery" value='fallout' type="text"/><button id="search-button" onclick="getData()">Search</button></label>
     </div>
-	<div id="link-container">
-    </div>
-	<div id="loadingText">
+	<div id = "loadedContent">
+		<div id="link-container">
+		</div>
+		<div id="loadingText">
+		</div>
+		<div id="search-container">
+		</div>
 	</div>
-    <div id="search-container">
-    </div>
 	<a href="#" onclick="loadMore()" id="loadMoreButton">Load More</a>
 </body>
 </html>
