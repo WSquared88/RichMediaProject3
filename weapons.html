@@ -9,6 +9,9 @@
 	<script type="text/javascript">
 	var PROXY_URL = "proxy.php?filename=";
 	var API_KEY = "470d55269e6389f7c2f4be6604d8a0c54ed12fc0";
+	var allGames;
+	var gameStart;
+	var gameEnd;
 	
 	var getTwitch = function(game)
 	{
@@ -40,7 +43,13 @@
 	var getData = function()
 	{
 		var game = $('#gameQuery').val();
-		document.querySelector("#search-container").innerHTML = "<b>Searching for " + game + "</b>";
+		document.querySelector("#loadingText").innerHTML = "<b>Searching for " + game + "</b>";
+		$("#search-container").fadeOut(1000);
+		$("#loadMoreButton").fadeOut(1000);
+		$("#link-container").fadeOut(1000, function()
+		{
+			$("#loadingText").fadeIn(500);
+		});
 		getGame(game);
 		getTwitch(game);
 		
@@ -102,8 +111,6 @@
 			}
 		}
 		document.querySelector('#link-container').innerHTML = html;
-		
-		$("#link-container").fadeIn(500);
 	}
 	
 	var jsonPLoaded = function(e)
@@ -117,16 +124,30 @@
 		}
 		console.log("The API actually worked");
 		var games = e.results;
+		allGames = games;
+		gameStart = 0;
+		gameEnd = 10;
 		console.log(games);
-		var html = "";
-		for(var i = 0;i<games.length;i++)
+		var html = goThroughGameData(games,gameStart,gameEnd);
+		document.querySelector('#search-container').innerHTML = html;
+		$("#loadingText").fadeOut(500, function()
+		{
+			if(games.length > gameEnd)
+			{
+				$("#loadMoreButton").fadeIn(500);
+			}
+			$("#search-container").fadeIn(500);
+			$("#link-container").fadeIn(500);
+		});
+	}
+	
+	var goThroughGameData = function(games,start, end)
+	{
+		html = "";
+		
+		for(var i = start;i<games.length && i<end;i++)
 		{
 			html += "<div class='content'>";
-			if(games[i].image)
-			{
-				html += "<img src='"+games[i].image.medium_url+"'></img>";
-			}
-			
 			if(games[i].name)
 			{
 				html += "<h2>"+games[i].name+"</h2>";
@@ -134,6 +155,11 @@
 			else
 			{
 				html += "<h2>The title could not be found</h2>";
+			}
+			
+			if(games[i].image)
+			{
+				html += "<img src='"+games[i].image.medium_url+"'></img>";
 			}
 			
 			if(games[i].description)
@@ -173,9 +199,31 @@
 			
 			html += "</div>";
 		}
-		document.querySelector('#search-container').innerHTML = html;
+		return html;
+	}
+	
+	var loadMore = function()
+	{
+		gameStart += 10;
+		gameEnd += 10;
+		$("#link-container").fadeOut(1000);
+		$("#loadMoreButton").fadeOut(1000);
+		$("#search-container").fadeOut(1000, function()
+		{
+			$("#loadingText").fadeIn(500);
+			var html = goThroughGameData(allGames, gameStart, gameEnd);
+			document.querySelector('#search-container').innerHTML = html;
+			$("#loadingText").fadeOut(500, function()
+			{
+				if(allGames.length > gameEnd)
+				{
+					$("#loadMoreButton").fadeIn(500);
+				}
+				$("#search-container").fadeIn(500);
+				$("#link-container").fadeIn(500);
+			});
+		});
 		
-		$("#search-container").fadeIn(500);
 	}
 </script>
 	
@@ -195,7 +243,10 @@
     </div>
 	<div id="link-container">
     </div>
+	<div id="loadingText">
+	</div>
     <div id="search-container">
     </div>
+	<a href="#" onclick="loadMore()" id="loadMoreButton">Load More</a>
 </body>
 </html>

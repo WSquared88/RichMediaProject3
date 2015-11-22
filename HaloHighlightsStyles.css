@@ -37,3 +37,18 @@ h1
 {
 	float: left;
 }
+
+#search-container
+{
+	display: none;
+}
+
+#link-container
+{
+	display: none;
+}
+
+#loadMoreButton
+{
+	display: none;
+}
