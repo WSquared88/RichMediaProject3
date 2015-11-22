@@ -1,3 +1,15 @@
+/* 	THIS IS A DESCRIPTION OF WHERE EVERYTHING IS */
+/* 	All of the game content is in the div with an id of search-container
+	All of the Twitch stuff is in the div with an id of link-container
+	All of the loading text is in the div with an id of loadingText
+	Each game in the search-container div is inside a div with a class of content
+	Each game can have an <h2> with the name, an img with the image, and the description which is inside <p> tags.
+	The description of each game can have an <h2> in it, a <p> tag, and another img tag.
+	The button that loads more things is in a <a> tag with an id of loadMoreButton
+	Some of the ids and classes already have css here so look for it first before making a new one*/
+
+
+
 #selectors
 {
 	position: absolute;
