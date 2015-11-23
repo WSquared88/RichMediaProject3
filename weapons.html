@@ -98,8 +98,8 @@
 				if(streams[i].channel.name)
 				{
 					html += "Link to "+streams[i].channel.name+"'s stream</a>";
-					html += "<div style='text-align: center;'><object width='620' height='378' id='live_embed_player_flash' data='" + streams[i].channel.url + "' type='application/x-shockwave-flash' bgcolor='#000000'></object></div><div class = 'divider'> </div>";
-
+					//html += "<div style='text-align: center;'><object width='620' height='378' id='live_embed_player_flash' data='" + streams[i].channel.url + "/hls' type='application/x-shockwave-flash' bgcolor='#000000'></object></div><div class = 'divider'> </div>";
+					html += "<iframe width='600' height='600' src='http://www.twitch.tv/"+streams[i].channel.name+"/embed'></iframe>";
 				}
 				else
 				{

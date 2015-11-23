@@ -82,6 +82,7 @@ h1
 {
 	position: relative;
 	float: right;
+	margin: 10px;
 	width: 50%;
 }
 
@@ -108,7 +109,7 @@ h1
 	background-repeat: repeat-x;
 	clear: both;
 	opacity: 0.4;
-	
+	margin: 20px;
 	height: 5px;
 }
 
