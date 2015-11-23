@@ -164,12 +164,21 @@
 				html += "<img class = 'loadedImage' src='"+games[i].image.thumb_url+"'></img>";
 			}
 			
+			var description = "";
+			
+			if(games[i].deck)
+			{
+				description = "<h2>Overview</h2>"+games[i].deck;
+			}
+			else
+			{
+				description = "<p>There is no description for this game</p>";
+			}
+			
 			if(games[i].description)
 			{
-				var description = "There is no description for this game";
 				for(var j = 0;j+4<games[i].description.length;j++)
 				{
-				
 					if(games[i].description.substring(j,j+3) == "<h2")
 					{
 						var endNum = j+3;
@@ -192,11 +201,11 @@
 						}
 					}
 				}
-				html += "<p class = 'description'>"+description+"</p>";
+				html += "<div class = 'description'>"+description+"</div>";
 			}
 			else
 			{
-				html += "<p class = 'description'>There is no description for this game</p>";
+				html += "<div class='description'>"+description+"</div>";
 			}
 			
 			html += "<div class = 'divider'> </div></div>";
