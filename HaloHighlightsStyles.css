@@ -12,6 +12,13 @@
 *{
 		
 }
+
+#logo{
+	position: absolute;
+	top: 10px;
+	left: 27%;
+}
+
 #selectors
 {
 	position: absolute;
@@ -29,8 +36,11 @@
 
 #buttons{
 	position: absolute;
-	top: 50px;
-	left: 40%;
+	top: 130px;
+	left: 43%;
+	
+	background-image: url("media/mooning.png");
+	background-repeat: repeat;
 }
 
 body
@@ -51,7 +61,7 @@ body
 	width: 80%;
 	position: absolute;
 	left: 10%;
-	top: 100px;
+	top: 200px;
 }
 
 h1
@@ -66,7 +76,7 @@ h1
 	left: 15%;
 }
 
-.description
+body .description
 {
 	position: relative;
 	width: 70%;
@@ -75,7 +85,7 @@ h1
 
 .loadedImage{
 	position: relative;
-	width: 70%;
+	
 	left: 15%;
 }
 
@@ -83,6 +93,15 @@ h1
 {
 	position: relative;
 	left: 25%;
+}
+
+.divider{
+	background-image: url("media/binding_dark.png");
+	background-repeat: repeat-x;
+	
+	opacity: 0.4;
+	
+	height: 5px;
 }
 
 #search-container
@@ -96,7 +115,8 @@ h1
 }
 
 #loadMoreButton
-{
-	display: none;
-
+{	
+	position: absolute;
+	top: 3000px;
+	left: 45%;
 }
