@@ -124,14 +124,16 @@ h1
 
 #loadMoreButton
 {	
-	position: absolute;
-	top: 3500px;
-	left: 70%;
+	display: none;
+	position: absolute
+	margin-top: 100px;
+	margin-left: 70%;
 }
 
 #loadBackButton
 {	
-	position: absolute;
-	top: 3500px;
-	left: 30%;
+	display: none;
+	position: absolute
+	margin-top: 100px;
+	margin-left: 30%;
 }
