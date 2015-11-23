@@ -152,7 +152,7 @@
 			html += "<div class='content'>";
 			if(games[i].name)
 			{
-				html += "<h2>"+games[i].name+"</h2>";
+				html += "<h2 class ='gameTitle'>"+games[i].name+"</h2>";
 			}
 			else
 			{
@@ -225,6 +225,29 @@
 				$("#link-container").fadeIn(500);
 			});
 		});
+	}
+	
+	var goBack = function()
+	{
+		gameStart -= 10;
+		gameEnd -= 10;
+		$("#link-container").fadeOut(1000);
+		$("#loadMoreButton").fadeOut(1000);
+		$("#search-container").fadeOut(1000, function()
+		{
+			//$("#loadingText").fadeIn(500);
+			var html = goThroughGameData(allGames, gameStart, gameEnd);
+			document.querySelector('#search-container').innerHTML = html;
+			$("#loadingText").fadeOut(500, function()
+			{
+				if(gameStart > 0)
+				{
+					$("#loadMoreButton").fadeIn(500);
+				}
+				$("#search-container").fadeIn(500);
+				$("#link-container").fadeIn(500);
+			});
+		});
 		
 	}
 </script>
@@ -248,6 +271,7 @@
 		<div id="search-container">
 		</div>
 	</div>
-	<a href="#" onclick="loadMore()" id="loadMoreButton">Load More</a>
+	<img href="#" onclick="loadMore()" id="loadMoreButton" src="media/forwardArrow.png"></a>
+	<img href="#" onclick="goBack()" id="loadBackButton" src="media/backArrow.png"></a>
 </body>
 </html>
