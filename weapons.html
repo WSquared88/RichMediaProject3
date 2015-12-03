@@ -139,6 +139,12 @@
 		gameEnd = 10;
 		console.log(games);
 		var html = goThroughGameData(games,gameStart,gameEnd);
+		
+		if(games.length == 0)
+		{
+				html = "<h1>Unable to find any games with that search parameter</h1>";
+		}
+		
 		document.querySelector('#search-container').innerHTML = html;
 		$("#loadingText").fadeOut(500, function()
 		{
