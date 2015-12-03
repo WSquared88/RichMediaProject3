@@ -10,7 +10,7 @@
 
 
 *{
-		
+	font-family: 'Play', sans-serif;
 }
 
 #logo{
@@ -94,14 +94,14 @@ h1
 }
 
 .learnLink{
-	position: relative;
-	left: 40%;
+	
 }
 
 .loadedImage{
 	position: relative;
 	float: left;
 	left: 8%;
+	margin: 20px;
 }
 
 .gameTitle{
