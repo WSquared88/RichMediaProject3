@@ -96,7 +96,17 @@
 		{
 			if(streams[i].game)
 			{
-				html += "<h2>Watching: "+streams[i].game+"</h2>";
+				html += "<h2>Watching: "+streams[i].game+" By: ";
+				if(streams[i].channel.name)
+				{
+					html += streams[i].channel.name;
+				}
+				else
+				{
+					html += "Unknown";
+				}
+				
+				html += "</h2>";
 			}
 			
 			html += "<a href=";
@@ -230,6 +240,8 @@
 			
 			html += "</div>";
 		}
+		
+		html += "<div class = 'divider'> </div></div>";
 		return html;
 	}
 	
