@@ -115,9 +115,9 @@
 				html += streams[i].channel.url+" target='_blank'>";
 				if(streams[i].channel.name)
 				{
-					html += "Link to "+streams[i].channel.name+"'s stream</a>";
+					//html += "Link to "+streams[i].channel.name+"'s stream</a>";
 					//html += "<div style='text-align: center;'><object width='620' height='378' id='live_embed_player_flash' data='" + streams[i].channel.url + "/hls' type='application/x-shockwave-flash' bgcolor='#000000'></object></div><div class = 'divider'> </div>";
-					html += "<iframe width='600' height='600' src='http://www.twitch.tv/"+streams[i].channel.name+"/embed'></iframe>";
+					html += "<iframe class='twitchWindow' width='640' height='400' src='http://www.twitch.tv/"+streams[i].channel.name+"/embed'></iframe>";
 				}
 				else
 				{
@@ -235,7 +235,7 @@
 			
 			if(games[i].site_detail_url)
 			{
-				html += "Learn more <a href='"+games[i].site_detail_url+"' target='_blank'>here</a>";
+				html += "<div class='learnLink'>Learn more <a href='"+games[i].site_detail_url+"' target='_blank'>here</a></div>";
 			}
 			
 			html += "</div>";
