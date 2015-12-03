@@ -71,6 +71,11 @@ h1
 	text-align: center;
 }
 
+.twitchWindow{
+	position: relative;
+	left: 23%;
+}
+
 .contentFiller
 {
 	position: relative;
@@ -81,9 +86,16 @@ h1
 .description
 {
 	position: relative;
-	float: right;
-	margin: 10px;
+	top: -20px;
+	left: 40%;
+
+
 	width: 50%;
+}
+
+.learnLink{
+	position: relative;
+	left: 40%;
 }
 
 .loadedImage{
