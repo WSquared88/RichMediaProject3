@@ -12,6 +12,7 @@
 	var allGames;
 	var gameStart;
 	var gameEnd;
+	var transitioning;
 	
 	var getTwitch = function(game)
 	{
@@ -32,7 +33,7 @@
 			})
 			.fail(function(e) 
 			{
-				console.log("broke");
+				console.log("broke twitch");
 				console.dir(e);
 				//jsonLoaded(e);
 				//alert("error");
@@ -46,13 +47,15 @@
 		document.querySelector("#loadingText").innerHTML = "<b>Searching for " + game + "</b>";
 		$("#search-container").fadeOut(1000);
 		$("#loadMoreButton").fadeOut(1000);
+		$("#loadBackButton").fadeOut(1000);
 		$("#link-container").fadeOut(1000, function()
 		{
-			$("#loadingText").fadeIn(500);
+			$("#loadingText").fadeIn(500, function()
+			{
+				getGame(game);
+				getTwitch(game);
+			});
 		});
-		getGame(game);
-		getTwitch(game);
-		
 	}
 	
 	var getGame = function(game)
@@ -74,7 +77,7 @@
 			})
 			.fail(function(e) 
 			{
-				console.log("broke");
+				console.log("broke games");
 				console.dir(e);
 				//jsonLoaded(e);
 				//alert("error");
@@ -91,10 +94,15 @@
 		var html = "";
 		for(var i = 0;i<streams.length;i++)
 		{
+			if(streams[i].game)
+			{
+				html += "<h2>Watching: "+streams[i].game+"</h2>";
+			}
+			
 			html += "<a href=";
 			if(streams[i].channel && streams[i].channel.url)
 			{
-				html += streams[i].channel.url+">";
+				html += streams[i].channel.url+" target='_blank'>";
 				if(streams[i].channel.name)
 				{
 					html += "Link to "+streams[i].channel.name+"'s stream</a>";
@@ -149,6 +157,7 @@
 		
 		for(var i = start;i<games.length && i<end;i++)
 		{
+			html += "<div class = 'divider'> </div></div>";
 			html += "<div class='content'>";
 			if(games[i].name)
 			{
@@ -208,60 +217,74 @@
 				html += "<div class='description'>"+description+"</div>";
 			}
 			
-			html += "<div class = 'divider'> </div></div>";
+			if(games[i].site_detail_url)
+			{
+				html += "Learn more <a href='"+games[i].site_detail_url+"' target='_blank'>here</a>";
+			}
+			
+			html += "</div>";
 		}
 		return html;
 	}
 	
 	var loadMore = function()
 	{
-		gameStart += 10;
-		gameEnd += 10;
-		$("#link-container").fadeOut(1000);
-		$("#loadMoreButton").fadeOut(1000);
-		$("#loadBackButton").fadeOut(1000);
-		$("#search-container").fadeOut(1000, function()
+		if(!transitioning)
 		{
-			//$("#loadingText").fadeIn(500);
-			var html = goThroughGameData(allGames, gameStart, gameEnd);
-			document.querySelector('#search-container').innerHTML = html;
-			$("#loadingText").fadeOut(500, function()
+			transitioning = true;
+			gameStart += 10;
+			gameEnd += 10;
+			$("#link-container").fadeOut(1000);
+			$("#loadMoreButton").fadeOut(1000);
+			$("#loadBackButton").fadeOut(1000);
+			$("#search-container").fadeOut(1000, function()
 			{
-				if(allGames.length > gameEnd)
+				//$("#loadingText").fadeIn(500);
+				var html = goThroughGameData(allGames, gameStart, gameEnd);
+				document.querySelector('#search-container').innerHTML = html;
+				$("#loadingText").fadeOut(500, function()
 				{
-					$("#loadMoreButton").fadeIn(500);
-				}
-				$("#loadBackButton").fadeIn(500);
-				$("#search-container").fadeIn(500);
-				$("#link-container").fadeIn(500);
+					transitioning = false;
+					if(allGames.length > gameEnd)
+					{
+						$("#loadMoreButton").fadeIn(500);
+					}
+					$("#loadBackButton").fadeIn(500);
+					$("#search-container").fadeIn(500);
+					$("#link-container").fadeIn(500);
+				});
 			});
-		});
+		}
 	}
 	
 	var goBack = function()
 	{
-		gameStart -= 10;
-		gameEnd -= 10;
-		$("#link-container").fadeOut(1000);
-		$("#loadMoreButton").fadeOut(1000);
-		$("#loadBackButton").fadeOut(1000);
-		$("#search-container").fadeOut(1000, function()
+		if(!transitioning)
 		{
-			//$("#loadingText").fadeIn(500);
-			var html = goThroughGameData(allGames, gameStart, gameEnd);
-			document.querySelector('#search-container').innerHTML = html;
-			$("#loadingText").fadeOut(500, function()
+			transitioning = true;
+			gameStart -= 10;
+			gameEnd -= 10;
+			$("#link-container").fadeOut(1000);
+			$("#loadMoreButton").fadeOut(1000);
+			$("#loadBackButton").fadeOut(1000);
+			$("#search-container").fadeOut(1000, function()
 			{
-				if(gameStart > 0)
+				//$("#loadingText").fadeIn(500);
+				var html = goThroughGameData(allGames, gameStart, gameEnd);
+				document.querySelector('#search-container').innerHTML = html;
+				$("#loadingText").fadeOut(500, function()
 				{
-					$("#loadBackButton").fadeIn(500);
-				}
-				$("#loadMoreButton").fadeIn(500);
-				$("#search-container").fadeIn(500);
-				$("#link-container").fadeIn(500);
+					transitioning = false;
+					if(gameStart > 0)
+					{
+						$("#loadBackButton").fadeIn(500);
+					}
+					$("#loadMoreButton").fadeIn(500);
+					$("#search-container").fadeIn(500);
+					$("#link-container").fadeIn(500);
+				});
 			});
-		});
-		
+		}
 	}
 </script>
 	
@@ -272,7 +295,7 @@
 		<img id = "logo" src = "media/logo.png"></img>
 	</div>
 	<div id="buttons">
-      <label> <input id="gameQuery" value='fallout' type="text"/><button id="search-button" onclick="getData()">Search</button></label>
+      <label> <input id="gameQuery" value='yugioh' type="text"/><button id="search-button" onclick="getData()">Search</button></label>
     </div>
 	<div id = "loadedContent">
 		<div>
